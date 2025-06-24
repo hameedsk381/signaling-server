@@ -5,7 +5,7 @@ services:
     image: strukturag/nextcloud-spreed-signaling:latest
     container_name: nextcloud-signaling
     ports:
-      - "8080:8080"
+      - "8084:8084"
     environment:
       - SIGNALING_API_KEY=${SIGNALING_API_KEY}
     volumes:
