@@ -3,8 +3,8 @@ listen = 0.0.0.0:8084
 
 [app]
 api_key = d3b07384d113edec49eaa6238ad5ff00e7aef9aeb38a6e395b4b8c27d58a52cd
-session_hash_key = 95c4620f95ef40d8c641a76e7e24917354fd2879b7f9dc6a162fa2d4ad0a9c2e
-shared_secret = 7bfae1496a5cf110b4f9e6d9b6cccf9810fc65df10c5122dfb204340ce8ffcb5
+session_hash_key = c5b7e3f0e3c05b98fc9a35d4571d1547e1a24806b8f23f4185e24549eab69d71
+shared_secret = b672f0d2e90995b7a4c153719d9d3b6b329a4b238b563ff8b49cfbb33454a90c
 
 [nats]
 url = nats://signaling:verysecretpass@nats:4222
