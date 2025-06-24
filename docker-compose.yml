@@ -24,17 +24,9 @@ services:
     volumes:
       - ./signaling/config:/config
     environment:
-      - SIGNALING_SECRET=${SIGNALING_SECRET}
-      - SIGNALING_AUTH_SHARED_SECRET=${SIGNALING_AUTH_SHARED_SECRET}
-      - SIGNALING_SESSION_HASH_KEY=${SIGNALING_SESSION_HASH_KEY}
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.signaling.rule=Host(`signaling.yesj.in`) && PathPrefix(`/spreed`)
-      - traefik.http.middlewares.stripspreed.stripprefix.prefixes=/spreed
-      - traefik.http.routers.signaling.middlewares=stripspreed
-      - traefik.http.routers.signaling.entrypoints=websecure
-      - traefik.http.routers.signaling.tls.certresolver=letsencrypt
-      - traefik.http.services.signaling.loadbalancer.server.port=8084
+      - SIGNALING_SECRET=35cb1f0f1ae244909e2cb81aef942e8ccfafea0ffb20c22b3805a85a897bb779
+      - SIGNALING_AUTH_SHARED_SECRET=0989dc17608f4825988a7b6b18ec021c52b410bafcfd9c7abf0c07042c5f630a
+      - SIGNALING_NATS_URL=nats://signaling:verysecretpass@nats:4222
     networks:
       - localnet
     restart: unless-stopped
