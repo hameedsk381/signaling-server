@@ -1,45 +1,41 @@
 version: '3.8'
 
 services:
-  signaling:
-    image: strukturag/nextcloud-spreed-signaling:latest
-    container_name: signaling-server
-    ports:
-      - "8084:8080"
-    environment:
-      HTTP_LISTEN: ":8080"
-      HASH_KEY: "${HASH_KEY}"
-      BLOCK_KEY: "${BLOCK_KEY}"
-      INTERNAL_SHARED_SECRET_KEY: "${INTERNAL_SECRET}"
-
-      BACKENDS: "nc"
-      BACKEND_NC_URL: "${BACKEND_URL}"
-      BACKEND_NC_SHARED_SECRET: "${BACKEND_SECRET}"
-      BACKEND_NC_SESSION_LIMIT: 100
-      BACKEND_NC_MAX_STREAM_BITRATE: 1000000
-      BACKEND_NC_MAX_SCREEN_BITRATE: 2000000
-
-      USE_JANUS: "1"
-      JANUS_URL: "ws://janus:8188"
-
-      NATS_URL: "nats://nats:4222"
-
-      MAX_STREAM_BITRATE: 1500000
-      MAX_SCREEN_BITRATE: 3000000
-
-      TURN_SECRET: "${TURN_SECRET}"
-      TURN_SERVERS: "${TURN_SERVERS}"
-
-      SKIP_VERIFY: "true"
-
-  janus:
-    image: meetecho/janus-gateway:latest
-    container_name: janus
-    expose:
-      - "8188"
-
   nats:
     image: nats:latest
-    container_name: nats
-    expose:
-      - "4222"
+    container_name: nats-server
+    ports:
+      - "4222:4222"
+    command: -c /etc/nats/nats.conf
+    volumes:
+      - ./nats/config:/etc/nats
+    networks:
+      - net
+    restart: unless-stopped
+
+  signaling:
+    image: strukturag/nextcloud-spreed-signaling:latest
+    container_name: nextcloud-signaling
+    depends_on:
+      - nats
+    ports:
+      - "8084:8084"
+    volumes:
+      - ./config:/etc/signaling
+    environment:
+      - NATS_URL=nats://signaling:verysecretpass@nats:4222
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.signaling.rule=Host(`signaling.yesj.in`) && PathPrefix(`/spreed`)
+      - traefik.http.middlewares.stripspreed.stripprefix.prefixes=/spreed
+      - traefik.http.routers.signaling.middlewares=stripspreed
+      - traefik.http.routers.signaling.entrypoints=websecure
+      - traefik.http.routers.signaling.tls.certresolver=letsencrypt
+      - traefik.http.services.signaling.loadbalancer.server.port=8084
+    networks:
+      - net
+    restart: unless-stopped
+
+networks:
+  net:
+    driver: bridge
