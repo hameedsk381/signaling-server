@@ -27,7 +27,6 @@ services:
       - SIGNALING_SECRET=${SIGNALING_SECRET}
       - SIGNALING_AUTH_SHARED_SECRET=${SIGNALING_AUTH_SHARED_SECRET}
       - SIGNALING_SESSION_HASH_KEY=${SIGNALING_SESSION_HASH_KEY}
-      - SIGNALING_NATS_URL=${SIGNALING_NATS_URL}
     labels:
       - traefik.enable=true
       - traefik.http.routers.signaling.rule=Host(`signaling.yesj.in`)
