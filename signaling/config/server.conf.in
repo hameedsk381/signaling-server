@@ -3,9 +3,9 @@ listen = 0.0.0.0:8084
 base_url = https://signaling.yesj.in
 
 [app]
-api_key = {{ .Env.SIGNALING_SECRET }}
+api_key = 35cb1f0f1ae244909e2cb81aef942e8ccfafea0ffb20c22b3805a85a897bb779
 session_hash_key = c5b7e3f0e3c05b98fc9a35d4571d1547e1a24806b8f23f4185e24549eab69d71
-shared_secret = {{ .Env.SIGNALING_AUTH_SHARED_SECRET }}
+shared_secret = 0989dc17608f4825988a7b6b18ec021c52b410bafcfd9c7abf0c07042c5f630a
 
 [nats]
 url = nats://signaling:verysecretpass@nats:4222
