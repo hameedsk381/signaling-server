@@ -6,31 +6,38 @@ services:
     container_name: nats-server
     ports:
       - "4222:4222"
-    command: >
-      -c /etc/nats/nats.conf
+    command: -c /etc/nats/nats.conf
     volumes:
-      - ./nats/config:/etc/nats
+      - ./nats:/etc/nats
     networks:
-      - localnet
+      - net
     restart: unless-stopped
 
   signaling:
-    image: strukturag/nextcloud-spreed-signaling:latest
-    container_name: nextcloud-signaling
+    image: nextcloud/aio-signaling:latest
+    container_name: aio-signaling
     depends_on:
       - nats
     ports:
-      - "8084:8084"
+      - "8080:8080"
     volumes:
-      - ./signaling/config:/config
+      - ./config:/config
     environment:
       - SIGNALING_SECRET=35cb1f0f1ae244909e2cb81aef942e8ccfafea0ffb20c22b3805a85a897bb779
       - SIGNALING_AUTH_SHARED_SECRET=0989dc17608f4825988a7b6b18ec021c52b410bafcfd9c7abf0c07042c5f630a
       - SIGNALING_NATS_URL=nats://signaling:verysecretpass@nats:4222
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.signaling.rule=Host(`signaling.yesj.in`) && PathPrefix(`/spreed`)
+      - traefik.http.middlewares.stripspreed.stripprefix.prefixes=/spreed
+      - traefik.http.routers.signaling.middlewares=stripspreed
+      - traefik.http.routers.signaling.entrypoints=websecure
+      - traefik.http.routers.signaling.tls.certresolver=letsencrypt
+      - traefik.http.services.signaling.loadbalancer.server.port=8080
     networks:
-      - localnet
+      - net
     restart: unless-stopped
 
 networks:
-  localnet:
+  net:
     driver: bridge
