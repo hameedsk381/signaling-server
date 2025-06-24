@@ -29,9 +29,12 @@ services:
       - SIGNALING_SESSION_HASH_KEY=${SIGNALING_SESSION_HASH_KEY}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.signaling.rule=Host(`signaling.yesj.in`)
+      - traefik.http.routers.signaling.rule=Host(`signaling.yesj.in`) && PathPrefix(`/spreed`)
+      - traefik.http.middlewares.stripspreed.stripprefix.prefixes=/spreed
+      - traefik.http.routers.signaling.middlewares=stripspreed
       - traefik.http.routers.signaling.entrypoints=websecure
       - traefik.http.routers.signaling.tls.certresolver=letsencrypt
+      - traefik.http.services.signaling.loadbalancer.server.port=8084
     networks:
       - localnet
     restart: unless-stopped
