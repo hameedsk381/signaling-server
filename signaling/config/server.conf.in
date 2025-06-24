@@ -14,3 +14,8 @@ url = nats://signaling:verysecretpass@nats:4222
 type = static
 backend = default
 url = http://localhost:8084
+
+[backends]
+default = { url = "http://localhost:8084" }
+[grpc]
+enabled = false
