@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+  nats:
+    image: nats:latest
+    container_name: nats-server
+    ports:
+      - "4222:4222"
+    restart: unless-stopped
+
   signaling:
     image: strukturag/nextcloud-spreed-signaling:latest
     container_name: nextcloud-signaling
@@ -8,6 +15,9 @@ services:
       - "8084:8084"
     environment:
       - SIGNALING_API_KEY=${SIGNALING_API_KEY}
+      - SIGNALING_NATS_URL=nats://nats:4222
     volumes:
       - ./config:/config
+    depends_on:
+      - nats
     restart: unless-stopped

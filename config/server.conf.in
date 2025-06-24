@@ -3,3 +3,6 @@ listen = 0.0.0.0:8084
 
 [app]
 api_key = ${SIGNALING_API_KEY}
+
+[nats]
+url = nats://nats:4222
