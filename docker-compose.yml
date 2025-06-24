@@ -31,6 +31,3 @@ services:
       - traefik.http.routers.signaling.entrypoints=websecure
       - traefik.http.routers.signaling.tls.certresolver=letsencrypt
     restart: unless-stopped
-
-networks:
-  default:
