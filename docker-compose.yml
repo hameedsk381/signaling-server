@@ -26,6 +26,7 @@ services:
     environment:
       - SIGNALING_SECRET=35cb1f0f1ae244909e2cb81aef942e8ccfafea0ffb20c22b3805a85a897bb779
       - SIGNALING_AUTH_SHARED_SECRET=0989dc17608f4825988a7b6b18ec021c52b410bafcfd9c7abf0c07042c5f630a
+      - SIGNALING_SESSION_HASH_KEY=c5b7e3f0e3c05b98fc9a35d4571d1547e1a24806b8f23f4185e24549eab69d71
       - SIGNALING_NATS_URL=nats://signaling:verysecretpass@nats:4222
     labels:
       - traefik.enable=true
