@@ -10,6 +10,8 @@ services:
       -c /etc/nats/nats.conf
     volumes:
       - ./nats/config:/etc/nats
+    networks:
+      - localnet
     restart: unless-stopped
 
   signaling:
@@ -30,6 +32,10 @@ services:
       - traefik.http.routers.signaling.rule=Host(`${SIGNALING_DOMAIN}`)
       - traefik.http.routers.signaling.entrypoints=websecure
       - traefik.http.routers.signaling.tls.certresolver=letsencrypt
+    networks:
+      - localnet
     restart: unless-stopped
+
 networks:
-  default:
+  localnet:
+    driver: bridge
