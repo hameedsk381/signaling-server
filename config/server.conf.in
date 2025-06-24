@@ -1,8 +1,9 @@
 [http]
 listen = 0.0.0.0:8084
+base_url = https://${SIGNALING_DOMAIN}
 
 [app]
-api_key = d3b07384d113edec49eaa6238ad5ff00e7aef9aeb38a6e395b4b8c27d58a52cd
+api_key = ${SIGNALING_SECRET}
 session_hash_key = c5b7e3f0e3c05b98fc9a35d4571d1547e1a24806b8f23f4185e24549eab69d71
 shared_secret = b672f0d2e90995b7a4c153719d9d3b6b329a4b238b563ff8b49cfbb33454a90c
 
