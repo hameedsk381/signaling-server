@@ -2,7 +2,14 @@
 listen = 0.0.0.0:8084
 
 [app]
-api_key = ${SIGNALING_API_KEY}
+api_key = d3b07384d113edec49eaa6238ad5ff00e7aef9aeb38a6e395b4b8c27d58a52cd
+session_hash_key = 95c4620f95ef40d8c641a76e7e24917354fd2879b7f9dc6a162fa2d4ad0a9c2e
+shared_secret = 7bfae1496a5cf110b4f9e6d9b6cccf9810fc65df10c5122dfb204340ce8ffcb5
 
 [nats]
-url = nats://nats:4222
+url = nats://signaling:verysecretpass@nats:4222
+
+[backend]
+type = static
+backend = default
+url = http://localhost:8084
