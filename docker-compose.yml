@@ -1,17 +1,54 @@
-version: '3'
+version: '3.8'
+
 services:
+
   signaling:
     image: strukturag/nextcloud-spreed-signaling:latest
+    container_name: signaling-server
+    restart: unless-stopped
     ports:
-      - "8084:8084"
-    volumes:
-      - ./server.conf:/etc/signaling/server.conf
-    depends_on:
-      - nats
-      - janus
+      - "8084:8080"
+    environment:
+      HTTP_LISTEN: ":8080"
+      HASH_KEY: "${HASH_KEY}"
+      BLOCK_KEY: "${BLOCK_KEY}"
+      INTERNAL_SHARED_SECRET_KEY: "${INTERNAL_SECRET}"
+      BACKENDS: "nc"
+      BACKEND_NC_URL: "${BACKEND_URL}"
+      BACKEND_NC_SHARED_SECRET: "${BACKEND_SECRET}"
+      BACKEND_NC_SESSION_LIMIT: 100
+      BACKEND_NC_MAX_STREAM_BITRATE: 1000000
+      BACKEND_NC_MAX_SCREEN_BITRATE: 2000000
+      USE_JANUS: "1"
+      JANUS_URL: "ws://janus:8188"
+      NATS_URL: "nats://nats:4222"
+      TURN_SECRET: "${TURN_SECRET}"
+      TURN_SERVERS: "${TURN_SERVERS}"
+      SKIP_VERIFY: "false"
+
+  janus:
+    image: meetecho/janus-gateway:latest
+    container_name: janus
+    restart: unless-stopped
+    expose:
+      - "8188"
+
   nats:
     image: nats:latest
-  janus:
-    image: meetecho/janus-gateway
+    container_name: nats
+    restart: unless-stopped
+    expose:
+      - "4222"
+
+  coturn:
+    image: instrumentisto/coturn
+    container_name: coturn
+    restart: unless-stopped
     ports:
-      - "8188:8188"
+      - "3478:3478"
+      - "5349:5349"
+      - "3478:3478/udp"
+      - "5349:5349/tcp"
+    volumes:
+      - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf
+    command: ["turnserver", "-c", "/etc/coturn/turnserver.conf"]
