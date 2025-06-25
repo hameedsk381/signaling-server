@@ -6,7 +6,7 @@ services:
       - "4222:4222"
     restart: unless-stopped
 
-    janus:
+  janus:
     image: canyan/janus-gateway:latest
     ports:
       - "8188:8188"
