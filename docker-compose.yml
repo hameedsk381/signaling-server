@@ -13,9 +13,7 @@ services:
       - "7088-7090:7088-7090/udp"
     command: ["/usr/local/bin/janus", "-C", "/usr/local/etc/janus/janus.jcfg"]
     volumes:
-     volumes:
       - ./conf:/usr/local/etc/janus
-
     restart: unless-stopped
 
   signaling:
