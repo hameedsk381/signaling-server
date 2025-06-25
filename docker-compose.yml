@@ -27,7 +27,7 @@ services:
       SKIP_VERIFY: "false"
 
   janus:
-    image: meetecho/janus-gateway:latest
+    image: registry.gitlab.com/commagray/janus-gateway-docker:latest
     container_name: janus
     restart: unless-stopped
     expose:
