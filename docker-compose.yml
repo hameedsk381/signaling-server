@@ -6,30 +6,12 @@ services:
       - "4222:4222"
     restart: unless-stopped
 
-  janus:
-    image: canyan/janus-gateway:0.10.7
-    command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+    janus:
+    image: canyan/janus-gateway:latest
     ports:
-      - "8188:8188"   # WebSockets
-      - "8088:8088"   # HTTP REST
-      - "7088:7088/udp"  # RTP
-      - "7089:7089/udp"  # RTP
+      - "8188:8188"
+      - "8088:8088"
+      - "7088-7090:7088-7090/udp"
     volumes:
-      - ./conf/janus.jcfg:/usr/local/etc/janus/janus.jcfg
-      - ./conf/janus.eventhandler.sampleevh.jcfg:/usr/local/etc/janus/janus.eventhandler.sampleevh.jcfg
-    # Optional: host mode can improve ICE performance :contentReference[oaicite:1]{index=1}
-    # network_mode: "host"
-    restart: unless-stopped
-
-  signaling:
-    image: strukturag/nextcloud-spreed-signaling:latest
-    volumes:
-      - ./conf/signaling/server.conf:/etc/signaling/server.conf
-    environment:
-      - SIGNALING_CONFIG=/etc/signaling/server.conf
-    ports:
-      - "8084:8084"
-    depends_on:
-      - nats
-      - janus
+      - ./conf:/usr/local/etc/janus
     restart: unless-stopped
