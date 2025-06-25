@@ -1,0 +1,22 @@
+general: {
+  configs_folder = "/usr/local/etc/janus"
+}
+
+plugins: {
+  disable = "janus_plugin_sip"
+}
+
+transports: {
+  janus.transport.http: {
+    enabled = true
+    port = 8088
+    threads = 4
+    interface = "0.0.0.0"
+  }
+
+  janus.transport.websockets: {
+    enabled = true
+    port = 8188
+    interface = "0.0.0.0"
+  }
+}
