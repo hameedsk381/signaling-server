@@ -18,3 +18,15 @@ services:
     volumes:
       - ./conf:/usr/local/etc/janus
     restart: unless-stopped
+  signaling:
+    image: strukturag/nextcloud-spreed-signaling:latest
+    volumes:
+      - ./conf/signaling/server.conf:/etc/signaling/server.conf
+    environment:
+      - SIGNALING_CONFIG=/etc/signaling/server.conf
+    ports:
+      - "8080:8080"
+    depends_on:
+      - nats
+      - janus
+    restart: unless-stopped
