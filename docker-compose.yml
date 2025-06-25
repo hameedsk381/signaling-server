@@ -4,6 +4,9 @@ services:
     image: nats:latest
     ports:
       - "4222:4222"
+    environment:
+      - NATS_USER=signaling
+      - NATS_PASSWORD=verysecretpass
     restart: unless-stopped
 
   janus:
