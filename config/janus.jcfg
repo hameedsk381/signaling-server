@@ -1,27 +1,19 @@
-general: {
-  configs_folder = "/usr/local/etc/janus"
-}
+[general]
+configs_folder = /usr/local/etc/janus
 
-transports: {
-  janus.transport.websockets: {
-    enabled = true
-    port = 8188
-    interface = "0.0.0.0"
-  }
-  janus.transport.http: {
-    enabled = true
-    port = 8088
-    interface = "0.0.0.0"
-  }
-}
+[transports.websockets]
+enabled = true
+port = 8188
+interface = 0.0.0.0
 
-nat: {
-  stun_server = "stun.l.google.com"
-  stun_port = 19302
-  # optional, for public IP:
-  # nat_1_1_mapping = "YOUR_PUBLIC_IP"
-}
-plugins: {
-  disable = "janus_plugin_sip janus_plugin_textroom janus_plugin_recordplay janus_plugin_streaming janus_plugin_videocall janus_plugin_nosip janus_plugin_audiobridge"
-}
+[transports.http]
+enabled = true
+port = 8088
+interface = 0.0.0.0
 
+[nat]
+stun_server = stun.l.google.com
+stun_port = 19302
+
+[plugins]
+disable = janus_plugin_sip janus_plugin_textroom janus_plugin_recordplay janus_plugin_streaming janus_plugin_videocall janus_plugin_nosip janus_plugin_audiobridge
