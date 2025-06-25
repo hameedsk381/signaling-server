@@ -1,30 +1,14 @@
 version: '3.8'
-services:
-  nats:
-    image: nats:latest
-    ports:
-      - "4222:4222"
-    restart: unless-stopped
-  janus:
-    image: canyan/janus-gateway:latest
-    ports:
-      - "8188:8188"
-      - "8088:8088"
-      - "7088-7090:7088-7090/udp"
-    command: ["/usr/local/bin/janus", "-C", "/usr/local/etc/janus/janus.cfg"]
-    volumes:
-      - ./conf:/usr/local/etc/janus
-    restart: unless-stopped
 
-  signaling:
-    image: strukturag/nextcloud-spreed-signaling:latest
-    volumes:
-      - ./conf/signaling/server.conf:/etc/signaling/server.conf
-    environment:
-      - SIGNALING_CONFIG=/etc/signaling/server.conf
-    ports:
-      - "8084:8084"
-    depends_on:
-      - nats
-      - janus
+services:
+  talk_hpb:
+    image: ghcr.io/nextcloud-releases/aio-talk:latest
+    container_name: talk_hpb
+    init: true
     restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - "3478:3478/tcp"
+      - "3478:3478/udp"
+      - "8081:8081/tcp"
